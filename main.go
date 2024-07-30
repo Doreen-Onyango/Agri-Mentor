@@ -10,7 +10,7 @@ import (
 
 func main() {
 	// Initialize the OpenAI client with your API key
-	apiKey := os.Getenv("Authorization: Bearer key") // Ensure your API key is set in the environment
+	apiKey := os.Getenv("Authorization: Bearer key")
 	client := openai.NewClient(apiKey)
 	// fmt.Println("API Key:", apiKey)
 
