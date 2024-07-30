@@ -10,64 +10,70 @@ import (
 
 type PestReport struct {
 	Data         interface{}
-	timeStamp    time.Time
-	previousHash string
-	hash         string
+	TimeStamp    time.Time
+	PreviousHash string
+	Hash         string
 }
 
 type ReportsRecord struct {
-	chain []PestReport
+	Chain []PestReport
 }
 
+// CreateHash calculates and sets the hash for the block
 func (block *PestReport) CreateHash() {
 	newDataString, err := json.Marshal(block.Data)
 	if err != nil {
-		fmt.Println("error encoding file")
+		fmt.Println("error encoding data:", err)
 		return
 	}
 
-	blockString := string(newDataString) + block.previousHash + block.timeStamp.Format(time.RFC3339)
+	blockString := string(newDataString) + block.PreviousHash + block.TimeStamp.Format(time.RFC3339)
 
 	blockHash := sha256.Sum256([]byte(blockString))
 
-	block.hash = hex.EncodeToString(blockHash[:])
+	block.Hash = hex.EncodeToString(blockHash[:])
 }
 
+// CreateGenesis initializes the genesis block and calculates its hash
 func CreateGenesis() ReportsRecord {
-	Genesis := PestReport{
+	genesis := PestReport{
 		Data:      "The first record",
-		timeStamp: time.Now(),
+		TimeStamp: time.Now(),
 	}
-	Genesis.CreateHash()
+	genesis.CreateHash()
 	return ReportsRecord{
-		chain: []PestReport{Genesis},
+		Chain: []PestReport{genesis},
 	}
 }
 
-func (b ReportsRecord) createBlock() ReportsRecord {
-	imgByte := []byte{0, 1}
+// CreateBlock creates a new block and returns a new ReportsRecord with the new block appended
+func (b ReportsRecord) CreateBlock() ReportsRecord {
+	imgByte := []byte{0, 1} // Example data
 
 	block := PestReport{
 		Data:         imgByte,
-		previousHash: b.chain[len(b.chain)-1].hash,
-		timeStamp:    time.Now(),
+		PreviousHash: b.Chain[len(b.Chain)-1].Hash,
+		TimeStamp:    time.Now(),
 	}
 
 	block.CreateHash()
-	b.chain = append(b.chain, block)
-	fmt.Println(b.chain)
-	return b
+
+	newChain := append(b.Chain, block)
+	return ReportsRecord{Chain: newChain}
 }
 
 // String provides a string representation of the blockchain for printing
-func (b ReportsRecord) Stringout() string {
+func (b ReportsRecord) String() string {
 	var result string
-	for _, block := range b.chain {
-		dataStr, _ := json.Marshal(block.Data)
+	for _, block := range b.Chain {
+		dataStr, err := json.Marshal(block.Data)
+		if err != nil {
+			dataStr = []byte("error marshalling data")
+		}
 		result += fmt.Sprintf("TimeStamp: %s\nPreviousHash: %s\nHash: %s\nData: %s\n\n",
-			block.timeStamp.Format(time.RFC3339),
-			block.previousHash,
-			block.hash,
+			block.TimeStamp.Format(time.RFC3339),
+			block.PreviousHash,
+			block.Hash,
 			string(dataStr))
 	}
 	return result
@@ -76,18 +82,7 @@ func (b ReportsRecord) Stringout() string {
 func main() {
 	blockchain := CreateGenesis()
 
-	blockchain.createBlock()
+	blockchain = blockchain.CreateBlock()
 
-	// fmt.Println(blockchain)
-
-	// for _, block := range blockchain.chain{
-	// 	fmt.Println(block.Data)
-	// 	fmt.Println(block.timeStamp)
-	// 	fmt.Println(block.previousHash)
-	// 	fmt.Println(block.hash)
-
-	// }
-
-	fmt.Println(blockchain.Stringout())
+	fmt.Println(blockchain.String())
 }
-
