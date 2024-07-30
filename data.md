@@ -1,29 +1,28 @@
 
 
-# Rice Farming in Kenyarice farming in the country. 
+# Rice Farming in Kisumu County. 
 
 Overall, rice farming in Kenya is an important sector that contributes significantly to the country’s food security and provides a source of income for many smallholder farmers.
 
-
 ## Varieties
 
-Irrigated varieties: Sindano, Basmat 370, Basmat 217, BW 196, BG-90-2, BR 51-74-6 and IR 2793-80-1, ITA 310
+- Irrigated varieties: Sindano, Basmat 370, Basmat 217, BW 196, BG-90-2, BR 51-74-6 and IR 2793-80-1, ITA 310
 
-Low land rainfed: Ci Cong Ai, WABIS-675, Jasmine-85, TGR-78
+- Low land rainfed: Ci Cong Ai, WABIS-675, Jasmine-85, TGR-78
 
-Rain-fed upland: NARIKA 1, NARIKA 4, NARIKA 10, NARIKA 11, TRG-94, Nam Roo, Deurado precoce, WAB 181-18
+- Rain-fed upland: NARIKA 1, NARIKA 4, NARIKA 10, NARIKA 11, TRG-94, Nam Roo, Deurado precoce, WAB 181-18
 
 ## Ecological requirements
 
-Altitude: 0-1700m above sea level
+- Altitude: 0-1700m above sea level
 
-Rainfall: 800-2000mm annually
+- Rainfall: 800-2000mm annually
 
-Temperature: 20-360C
+- Temperature: 20-360C
 
-Sunshine: Rice requires abundant sunshine to maximize growth and development. However, prolonged exposure to direct sunlight can lead to heat stress and reduce yield.
+- Sunshine: Rice requires abundant sunshine to maximize growth and development. However, prolonged exposure to direct sunlight can lead to heat stress and reduce yield.
 
-Soils: Sandy loam to clay, PH ranging from 4.5-7.0
+- Soils: Sandy loam to clay, PH ranging from 4.5-7.0
 
 
 ## Planting
@@ -45,15 +44,15 @@ For rain fed rice carry out weeding three times, first weeding done 2-3 weeks af
 
 ## Pest management
 
-White rice borer: Practice good field hygiene, plant resistant varieties, use systemic insecticides such as confidor.
+- White rice borer: Practice good field hygiene, plant resistant varieties, use systemic insecticides such as confidor.
 
-Birds: Quelea quelea bird, use bird scaring devices, monitor regularly for breeding sites, report to agricultural office for assistance.
+- Birds: Quelea quelea bird, use bird scaring devices, monitor regularly for breeding sites, report to agricultural office for assistance.
 
-Rice stem borer:Plant resistant varieties, practice good field hygiene, use systemic insecticides eg confidor.
+- Rice stem borer:Plant resistant varieties, practice good field hygiene, use systemic insecticides eg confidor.
 
-Stalk eyed fly: Use systemic insecticides eg confidor.
+- Stalk eyed fly: Use systemic insecticides eg confidor.
 
-Rice leaf hoppers: Use insecticides such as endosulfan.
+- Rice leaf hoppers: Use insecticides such as endosulfan.
 
 NB: Chemical control measure should be adopted when pest damage is severe!
 ## Disease management
