@@ -2,6 +2,9 @@
 
 ## Usage
 
++ Create an GEMINI API KEY [here](https://aistudio.google.com/app/apikey)
+    - Ensure to signup with your Google Account
+
 + To set the environment variable GEMINI_API_KEY 
 ```
 $ code ~/.zshrc
