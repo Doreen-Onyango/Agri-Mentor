@@ -1,43 +1,23 @@
 package main
 
 import (
-	"context"
 	"fmt"
-	"os"
+	"net/http"
 
-	openai "github.com/sashabaranov/go-openai"
+	server "agric/server"
 )
 
 func main() {
-	// Initialize the OpenAI client with your API key
-	apiKey := os.Getenv("Authorization: Bearer key")
-	client := openai.NewClient(apiKey)
-	// fmt.Println("API Key:", apiKey)
+	r := http.NewServeMux()
+	//	fileserver := http.FileServer(http.Dir("/templates"))
+	r.HandleFunc("/", server.Handl)
+	r.HandleFunc("/signin", server.RenderTemplate)
+	r.HandleFunc("/chatbot", server.Handl)
 
-	// Define the region context
-	region := "Kisumu"
-	contextPrompt := fmt.Sprintf("You are a chatbot that can only provide information about %s.", region)
-
-	// Start the conversation loop
-	for {
-		var userInput string
-		fmt.Print("You: ")
-		fmt.Scanln(&userInput)
-
-		// Create a chat completion request
-		resp, err := client.CreateChatCompletion(context.Background(), openai.ChatCompletionRequest{
-			Model: openai.GPT3Dot5Turbo,
-			Messages: []openai.ChatCompletionMessage{
-				{Role: openai.ChatMessageRoleSystem, Content: contextPrompt},
-				{Role: openai.ChatMessageRoleUser, Content: userInput},
-			},
-		})
-		if err != nil {
-			fmt.Printf("Error generating response: %v\n", err)
-			continue
-		}
-
-		// Output the AI's response
-		fmt.Printf("AI: %s\n", resp.Choices[0].Message.Content)
+	server := http.Server{
+		Addr:    ":8081",
+		Handler: r,
 	}
+	fmt.Println("Server listening on port http://localhost:8081")
+	server.ListenAndServe()
 }
