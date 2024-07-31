@@ -1,62 +1,19 @@
 package main
 
 import (
-	"context"
-	"fmt"
-	"log"
-	"os"
+	"net/http"
 
-	"agri-mentor/chatbot"
-
-	"github.com/google/generative-ai-go/genai"
-	"google.golang.org/api/option"
+	"agri-mentor/server"
 )
 
 func main() {
-	ctx := context.Background()
+	// Serve static files from the /static directory
+    http.Handle("/", http.FileServer(http.Dir("./templates")))
 
-	apiKey, found := os.LookupEnv("GEMINI_API_KEY")
-	if !found {
-		log.Fatal("Environment variable GEMINI_API_KEY not set\n")
-	}
-	option := option.WithAPIKey(apiKey)
+	// http.HandleFunc("/", server.RenderTemplate) // Serve the HTML file
+	
+	http.HandleFunc("/query", server.HandleSendMessage) // Handle the input submission
 
-	client, err := genai.NewClient(ctx, option)
-	if err != nil {
-		log.Fatalf("Error creating client: %v\n", err)
-	}
-	defer client.Close()
-
-	model := client.GenerativeModel("gemini-1.5-flash")
-
-	model.SetTemperature(0.1)
-	model.SetTopK(30)
-	model.SetTopP(0.95)
-	model.SetMaxOutputTokens(1000)
-	model.ResponseMIMEType = "text/plain"
-
-	// model.SafetySettings = Adjust safety settings
-	// See https://ai.google.dev/gemini-api/docs/safety-settings
-
-	prompt := "harvest time for basmat rice"
-	answer, err := chatbot.ProcessQuery(prompt, "resource/data.csv")
-	if err != nil {
-		fmt.Println("Error:", err)
-	} // else {
-	// 	fmt.Println("Result:", answer)
-	// }
-
-	parts := []genai.Part{
-		genai.Text("input: Respond only with the information provided but be wordy: " + prompt),
-		genai.Text("output: " + answer),
-	}
-
-	resp, err := model.GenerateContent(ctx, parts...)
-	if err != nil {
-		log.Fatalf("Error sending message: %v\n", err)
-	}
-
-	for _, part := range resp.Candidates[0].Content.Parts {
-		fmt.Printf("%v\n", part)
-	}
+	println("Server started at port: 8080")
+	http.ListenAndServe(":8080", nil) // Start the server
 }
