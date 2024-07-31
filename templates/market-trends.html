@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Market Trends</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            box-sizing: border-box;
+        }
+        .content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 80%;
+            max-width: 1000px;
+            height: 100%;
+            box-sizing: border-box;
+        }
+        .block {
+            padding: 10px;
+            margin: 10px;
+            width: 200px;
+            box-sizing: border-box;
+            flex: 0 0 auto;
+            background-color: #2db984;
+            border: none;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+        #addBlockForm {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 1px solid #000;
+            padding: 10px;
+            margin: 10px 0;
+            width: 100%;
+            max-width: 400px;
+            box-sizing: border-box;
+        }
+        #addBlockForm label,
+        #addBlockForm input,
+        #addBlockForm select,
+        #addBlockForm button {
+            width: 100%;
+            margin: 5px 0;
+            box-sizing: border-box;
+        }
+        #blockchain {
+            flex-grow: 1;
+            overflow-x: auto;
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            box-sizing: border-box;
+        }
+        h2 {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Market Trends</h1>
+    <div class="content">
+        <div id="blockchain"></div>
+        
+        <h2>Update Price (Authorities Only)</h2>
+        <form id="addBlockForm">
+            <label for="location">Location:</label>
+            <input type="text" id="location" name="location" required>
+            <label for="crop">Crop:</label>
+            <input type="text" id="crop" name="crop" value="Rice" readonly>
+            <label for="price">Price:</label>
+            <input type="number" step="0.01" id="price" name="price" required>
+            <label for="authority">Authority:</label>
+            <select id="authority" name="authority" required>
+                <option value="">Select an authority</option>
+                {{range .Authorities}}
+                <option value="{{.}}">{{.}}</option>
+                {{end}}
+            </select>
+            <button type="submit">Add</button>
+        </form>
+    </div>
+
+    <script>
+        async function fetchBlockchain() {
+            const response = await fetch('/blockchain');
+            const blockchain = await response.json();
+            const blockchainDiv = document.getElementById('blockchain');
+            blockchainDiv.innerHTML = '';
+            
+            blockchain.Chain.slice(1).forEach(block => {
+                const blockDiv = document.createElement('div');
+                blockDiv.className = 'block';
+                const dateOnly = new Date(block.TimeStamp).toLocaleDateString();
+                blockDiv.innerHTML = `
+                    <p><strong>Location:</strong> ${block.MarketInfo.Location}</p>
+                    <p><strong>Crop:</strong> ${block.MarketInfo.Crop}</p>
+                    <p><strong>Price:</strong> ${block.MarketInfo.Price}</p>
+                    <p><strong>Authority:</strong> ${block.Authority}</p>
+                    <p><strong>Timestamp:</strong> ${dateOnly}</p>
+                `;
+                blockchainDiv.appendChild(blockDiv);
+            });
+        }
+
+        document.getElementById('addBlockForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const data = {
+                Location: formData.get('location'),
+                Crop: formData.get('crop'),
+                Price: parseFloat(formData.get('price'))
+            };
+            const authority = formData.get('authority');
+
+            const response = await fetch(`/add?authority=${authority}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (response.ok) {
+                fetchBlockchain();
+                event.target.reset();
+            } else {
+                const errorText = await response.text();
+                alert(`Failed to add block: ${errorText}`);
+            }
+        });
+
+        fetchBlockchain();
+    </script>
+</body>
+</html>

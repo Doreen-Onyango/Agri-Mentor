@@ -1,0 +1,294 @@
+{{define "index"}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agri-Mentor - AI-Powered Rice Farming Advice</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">Agri-Mentor</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About Us</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="/market-trends">Authorities</a></li>
+                <li><a href="#login" class="login-btn">Login</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section id="home" class="hero">
+            <h1>AI-Powered Rice Farming Advice</h1>
+            <p>Get personalized recommendations for your rice farm in Kenya</p>
+            <a href="#query" class="cta-btn">Get Started</a>
+        </section>
+        <section id="about" class="about">
+            <h2>About Us</h2>
+            <p>Agri-Mentor uses advanced AI and blockchain technology to provide real-time, reliable agricultural advice tailored for Kenyan rice farmers.</p>
+        </section>
+        <section id="services" class="services">
+            <h2>Our Services</h2>
+            <div class="service-grid">
+                {{range .Services}}
+                <div class="service-card">
+                    <i class="fas {{.Icon}}"></i>
+                    <h3>{{.Title}}</h3>
+                    <p>{{.Description}}</p>
+                </div>
+                {{end}}
+            </div>
+        </section>
+        <section id="query" class="query">
+            <h2>Ask Our AI Assistant</h2>
+            <div class="chat-container">
+                <div class="chat-messages" id="chatMessages">
+                    <!-- Chat messages will be dynamically added here -->
+                </div>
+                <div class="chat-input">
+                    <input type="text" id="userInput" placeholder="Type your question here...">
+                    <button onclick="sendMessage()">Send</button>
+                </div>
+            </div>
+        </section>
+        <section id="reports" class="reports">
+            <h2>Your Farm Reports</h2>
+            <div class="report-list">
+                <!-- Report items will be dynamically added here -->
+            </div>
+        </section>
+        <section id="feedback" class="feedback">
+            <h2>Give Us Feedback</h2>
+            <form id="feedbackForm">
+                <textarea id="feedbackText" placeholder="Your feedback is valuable to us. Please share your thoughts..."></textarea>
+                <button type="submit">Submit Feedback</button>
+            </form>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 Agri-Mentor. All rights reserved.</p>
+    </footer>
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Login</h2>
+            <form id="loginForm">
+                <input type="text" placeholder="Username" required>
+                <input type="password" placeholder="Password" required>
+                <button type="submit">Login</button>
+            </form>
+        </div>
+    </div>
+    <script src="/static/js/script.js"></script>
+</body>
+</html>
+{{end}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agri-Mentor - AI-Powered Rice Farming Advice</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- <link rel="stylesheet" href="login.html"> -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">Agri-Mentor</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About Us</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="login.html" class="login-btn">Login</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home" class="hero">
+            <h1>Agri-Mentor</h1>
+            <p>Get personalized recommendations for your rice farm in Kisumu</p>
+            <a href="#query" class="cta-btn">Get Started</a>
+        </section>
+
+        <section id="about" class="about">
+            <h2>About Us</h2>
+           
+        </section>
+
+        <section id="services" class="services">
+            <h2>Our Services</h2>
+            <div class="service-grid">
+                <div class="service-card">
+                    <i class="fas fa-seedling"></i>
+                    <h3>Crop Management</h3>
+                    <p>Get personalized advice on rice cultivation techniques.</p>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-bug"></i>
+                    <h3>Pest Control</h3>
+                    <p>Identify and manage pests affecting your rice crops.</p>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Market Trends</h3>
+                    <p>Stay updated on rice market prices and trends.</p>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-cloud-sun-rain"></i>
+                    <h3>Weather Forecasts</h3>
+                    <p>Get accurate weather predictions for your farm location.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="query" class="query">
+            <h2>Ask Our AI Assistant</h2>
+            <div class="chat-container">
+                <div class="chat-messages" id="chatMessages">
+                    <!-- Chat messages will be dynamically added here -->
+                    {{if .Messages}}
+                    {{range .Messages}}
+                        <div>{{.}}</div>
+                    {{end}}
+                {{end}}
+                </div>
+                <div class="chat-input">
+                    <input type="text" id="userInput" placeholder="Type your question here...">
+                    <button onclick="sendMessage()">Send</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="reports" class="reports">
+            <h2>Your Farm Reports</h2>
+            <div class="report-list">
+                <!-- Report items will be dynamically added here -->
+            </div>
+        </section>
+
+        <section id="feedback" class="feedback">
+            <h2>Give Us Feedback</h2>
+            <form id="feedbackForm">
+                <textarea placeholder="Your feedback is valuable to us. Please share your thoughts..."></textarea>
+                <button type="submit">Submit Feedback</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 SmartRice Kenya. All rights reserved.</p>
+    </footer>
+
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Login</h2>
+            <form id="loginForm">
+                <input type="text" placeholder="Username" required>
+                <input type="password" placeholder="Password" required>
+                <button type="submit">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+
+function sendMessage() {
+    let userInput = document.getElementById("userInput");
+    let message = userInput.value;
+    
+    fetch('/query', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({content: message}),
+    })
+    .then(response => response.json())
+    .then(messages => {
+        updateChatMessages(messages);
+        userInput.value = "";
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+function getMessages() {
+    fetch('/query')
+    .then(response => response.json())
+    .then(messages => {
+        updateChatMessages(messages);
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+function updateChatMessages(messages) {
+    let chatMessages = document.getElementById("chatMessages");
+    chatMessages.innerHTML = "";
+    messages.forEach(msg => {
+        let messageDiv = document.createElement("div");
+        messageDiv.textContent = msg.content;
+        chatMessages.appendChild(messageDiv);
+    });
+}
+
+// Initial load of messages
+getMessages();
+
+// Poll for new messages every 5 seconds
+setInterval(getMessages, 5000);
+        document.addEventListener("DOMContentLoaded", function() {
+            // Get the login form and button
+            var loginForm = document.getElementById("loginForm");
+            var loginButton = document.getElementById("loginButton");
+
+            // Add an event listener for the login button
+            loginButton.addEventListener("click", function(event) {
+                event.preventDefault(); // Prevent the default form submission
+
+                // Get the form values
+                var username = document.getElementById("username").value;
+                var password = document.getElementById("password").value;
+
+                // Validate the inputs (simple validation)
+                if (username === "" || password === "") {
+                    alert("Please fill in both fields.");
+                    return;
+                }
+
+                // Create an object with the form data
+                var formData = {
+                    username: username,
+                    password: password
+                };
+
+                // Make an AJAX call to the server to handle the login (optional)
+                fetch("/signin", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    },
+                    body: new URLSearchParams(formData).toString()
+                })
+                .then(response => response.text())
+                .then(data => {
+                    // Handle the server response
+                    alert("Login successful!"); // Replace with actual response handling
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    alert("An error occurred during login.");
+                });
+            });
+        });
+    </script>
+</body>
+</html>
