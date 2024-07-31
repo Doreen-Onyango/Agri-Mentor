@@ -65,6 +65,11 @@
             <div class="chat-container">
                 <div class="chat-messages" id="chatMessages">
                     <!-- Chat messages will be dynamically added here -->
+                    {{if .Messages}}
+                    {{range .Messages}}
+                        <div>{{.}}</div>
+                    {{end}}
+                {{end}}
                 </div>
                 <div class="chat-input">
                     <input type="text" id="userInput" placeholder="Type your question here...">
@@ -105,7 +110,51 @@
         </div>
     </div>
 
-    <script> 
+    <script>
+
+function sendMessage() {
+    let userInput = document.getElementById("userInput");
+    let message = userInput.value;
+    
+    fetch('/query', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({content: message}),
+    })
+    .then(response => response.json())
+    .then(messages => {
+        updateChatMessages(messages);
+        userInput.value = "";
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+function getMessages() {
+    fetch('/query')
+    .then(response => response.json())
+    .then(messages => {
+        updateChatMessages(messages);
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+function updateChatMessages(messages) {
+    let chatMessages = document.getElementById("chatMessages");
+    chatMessages.innerHTML = "";
+    messages.forEach(msg => {
+        let messageDiv = document.createElement("div");
+        messageDiv.textContent = msg.content;
+        chatMessages.appendChild(messageDiv);
+    });
+}
+
+// Initial load of messages
+getMessages();
+
+// Poll for new messages every 5 seconds
+setInterval(getMessages, 5000);
         document.addEventListener("DOMContentLoaded", function() {
             // Get the login form and button
             var loginForm = document.getElementById("loginForm");
