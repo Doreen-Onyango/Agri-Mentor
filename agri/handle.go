@@ -1,4 +1,4 @@
-package server
+package agri
 
 import (
 	"html/template"

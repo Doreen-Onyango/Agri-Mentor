@@ -9,6 +9,8 @@ import (
 	"log"
 	"net/http"
 	"time"
+
+	"agri-mentor/agri"
 )
 
 type Service struct {
@@ -78,6 +80,13 @@ func (bc *Blockchain) addBlock(marketInfo MarketInfo, authority string) {
 }
 
 func main() {
+	// Serve static files from the /static directory
+	//http.Handle("/", http.FileServer(http.Dir("./templates")))
+
+	// http.HandleFunc("/", server.RenderTemplate) // Serve the HTML file
+
+	http.HandleFunc("/query", agri.HandleSendMessage) // Handle the input submission
+
 	fs := http.FileServer(http.Dir("static"))
 	http.Handle("/static/", http.StripPrefix("/static/", fs))
 
@@ -86,8 +95,8 @@ func main() {
 	http.HandleFunc("/add", addBlockHandler)
 	http.HandleFunc("/market-trends", marketTrendsHandler)
 
-	log.Println("Server starting on http://localhost:8080")
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	log.Println("Server starting on http://localhost:8082")
+	log.Fatal(http.ListenAndServe(":8082", nil))
 }
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {
@@ -170,24 +179,4 @@ func getAuthorizedAuthorities() []string {
 		authorities = append(authorities, auth)
 	}
 	return authorities
-}
-
-package main
-
-import (
-	"net/http"
-
-	server "agri-mentor/agri"
-)
-
-func main() {
-	// Serve static files from the /static directory
-	http.Handle("/", http.FileServer(http.Dir("./templates")))
-
-	// http.HandleFunc("/", server.RenderTemplate) // Serve the HTML file
-
-	http.HandleFunc("/query", server.HandleSendMessage) // Handle the input submission
-
-	println("Server started at port: 8081")
-	http.ListenAndServe(":8081", nil) // Start the server
 }
